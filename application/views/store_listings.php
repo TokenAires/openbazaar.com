@@ -4,7 +4,7 @@
 	<?php $this->load->view('store_header_mobile',array('tab'=>'listings')); ?>	
 	
 	<div class="Page-Sub-Content clearfix Page-Sub-Content-Mobile">		
-		<div class="Store-Col1">
+		<div class="Store-Col1" style="width:220px;">
 			
 			<div class="Store-Filter-Box">
 				<div class="filter-box-header">Shipping</div>
@@ -51,90 +51,99 @@
 					<p><input type="radio" name="rating" value="3" class="ratings-input-control" id="filter-box-ratings-3"><label for="filter-box-ratings-3">⭐⭐⭐ 3+</p>
 					<p><input type="radio" name="rating" value="2" class="ratings-input-control" id="filter-box-ratings-2"><label for="filter-box-ratings-2">⭐⭐ 2+</p>
 					<p><input type="radio" name="rating" value="1" class="ratings-input-control" id="filter-box-ratings-1"><label for="filter-box-ratings-1">⭐ 1+</p>							
-				</div>			
-			</div>
-		
-			<div class="Store-Share">
-				<span style="font-size: 13px">Share&nbsp;</span> 
-				<a href="https://twitter.com/intent/tweet?text=<?=urlencode($profile->name)?> on @OpenBazaar <?=base_url()?>store/<?=$profile->peerID?>" target="_blank" title="Share on Twitter"><img src="<?=asset_url()?>img/icon-twitter.png" height=12.5 style="margin-right: 5px" /></a>
-				<a href="https://www.facebook.com/sharer/sharer.php?u=<?=base_url()?>/store/<?=$profile->peerID?>" target="_blank"><img src="<?=asset_url()?>img/icon-facebook.png" height=12.5 style="margin-right: 5px" target="_blank" title="Share on Facebook"/></a>
-				<a href="http://pinterest.com/pin/create/button/?url=<?=base_url()?>store/<?=$profile->peerID?>&media=https://gateway.ob1.io/ob/images/<?php echo (isset($profile->headerHashes)) ? $profile->headerHashes->large : ''; ?>&description=<?=urlencode($profile->shortDescription)?>" target="_blank"  title="Share on Pinterest"><img src="<?=asset_url()?>img/icon-pinterest.png" height=12.5 target="_blank"/></a>
-			</div>
-		
-		
-		<div class="listings-container">
+            </div>
+        </div>
+        <div style="flex:1">
+		    <div style="display:flex;height:40px;">
+		        <div class="Store-Widget-Notice" style="cursor:pointer;font-size:13px;flex:1;box-sizing:border-box;padding-left:8px;" onclick="location.href='/widget';">
+                    <div class="Store-Widget-Notice-Box">
+                        <div class="new-tag">New</div> <span style="font-weight:bold;color:#000000;margin-right:5px;">Store Widget Builder</span>  Create an OpenBazaar store widget
+                    </div>
+		        </div>
 
-			<?php						
-			$i = 0;
-			
-			if($listings) {
-				//$listings = array_slice($listings, 0, 64);
-				foreach($listings as $listing) { 
-					if(isset($listing) && $listing->contractType == "CRYPTOCURRENCY") { 
-						$coinType = $listing->coinType;
-						$price = pretty_price(get_coin_amount($coinType), $coinType, 8);
-					} else { 
-						$price = pretty_price($listing->price->amount, $listing->price->currencyCode);
-					}
-				
-			?>
+                <div class="Store-Share">
+                    <span style="font-size: 13px">Share&nbsp;</span>
+                    <a href="https://twitter.com/intent/tweet?text=<?=urlencode($profile->name)?> on @OpenBazaar <?=base_url()?>store/<?=$profile->peerID?>" target="_blank" title="Share on Twitter"><img src="<?=asset_url()?>img/icon-twitter.png" height=12.5 style="margin-right: 5px" /></a>
+                    <a href="https://www.facebook.com/sharer/sharer.php?u=<?=base_url()?>/store/<?=$profile->peerID?>" target="_blank"><img src="<?=asset_url()?>img/icon-facebook.png" height=12.5 style="margin-right: 5px" target="_blank" title="Share on Facebook"/></a>
+                    <a href="http://pinterest.com/pin/create/button/?url=<?=base_url()?>store/<?=$profile->peerID?>&media=https://gateway.ob1.io/ob/images/<?php echo (isset($profile->headerHashes)) ? $profile->headerHashes->large : ''; ?>&description=<?=urlencode($profile->shortDescription)?>" target="_blank"  title="Share on Pinterest"><img src="<?=asset_url()?>img/icon-pinterest.png" height=12.5 target="_blank"/></a>
+                </div>
 
-				<div class="mobile-listing-box">
-				<a href="/store/<?=$profile->peerID?>/<?=$listing->slug?>" title="<?=$listing->title?>">
-				<div rating="<?=$listing->averageRating?>" freeShipping="<?=implode($listing->freeShipping, ",")?>" category="<?=($listing->categories) ?implode(",", $listing->categories): "";?>" class="Store-Body-Listing-Box  <?php if($i%3==2) { echo "Discover-Body-Listing-Box-Last"; } ?>">
-					
-					<a class="Discover-Body-Listing-Link" href="/store/<?=$profile->peerID?>/<?=$listing->slug?>" title="<?=$listing->title?>"></a>
-					<?php if($verified_mod) { ?>
-					<div class="verified-mod-badge" style="float:left;cursor:pointer;background-position: center center;width:36px;height:36px;background-size:24px 24px; background-repeat: no-repeat;background-image: url(https://search.ob1.io/images/verified_moderator_badge_tiny.png), url('../imgs/verifiedModeratorBadgeDefault-tiny.png');">
-						
-						<div class="verified-mod-tip hidden up-arrow" style="width:250px">
-							<div style="margin-left:auto;margin-right:auto;text-align: center;display: table">
-								<img src="https://search.ob1.io/images/verified_moderator_badge_tiny.png" width=24 style="width:24px;text-align:right;display: table-cell;vertical-align: middle; " />
-								<span style="vertical-align: middle;display: table-cell; font-weight: 700; font-size: 14px">Verified Moderator</span>
-							</div>
-							<p class="verified-mod-text" style="font-size:13px;">You can purchase this listing with a moderator verified by <b>OB1</b>. <br/> <a href="https://ob1.io/verified-moderators.html" style="text-decoration: underline !important; cursor: pointer !important;" target="_blank">Learn more</a></p>
-						
-						</div>
-					</div>																											
-					<?php } ?>
-					
-					<div class="Store-Body-Listing-Box-Photo lazy" data-src='https://gateway.ob1.io/ob/images/<?=$listing->thumbnail->small?>');" style="background-image: url('<?=asset_url()?>img/defaultItem.png');">
-						<?php if(count($listing->freeShipping) > 0) { ?>
-						<div class="phraseBox" style="margin:8px 8px 0 0;">FREE SHIPPING</div>
-						<?php } ?>
-					</div>
-					<div class="Discover-Body-Listing-Box-Desc">
-						<div class="Discover-Body-Listing-Box-Title">
-							<?php
-							if($listing->contractType == "CRYPTOCURRENCY") {  
-							?>
-							<div style="font-size:13.5px;align-items: center;display: flex;">	
-							
-								<img src="<?=asset_url()?>img/coins/64x64/<?=coin_to_icon($profile->currencies[0])?>.png" width=16 height=16 style="margin-right:4px;"/> <?=$profile->currencies[0]?> 
-								<img src="<?=asset_url()?>img/icon-arrow.png" width=12 height=12 style="margin:0 12px;" />
-								<img src="<?=asset_url()?>img/coins/64x64/<?=coin_to_icon($listing->coinType)?>.png" width=16 height=16 style="margin-right:4px;"/> <?=$listing->coinType;?> 
-							</div>
-							<?php
-							} else { ?>
-								<a href="/store/<?=$profile->peerID?>/<?=$listing->slug?>"><?=$listing->title?></a>
-							<?php } ?>
+        	</div>
+		
+            <div class="listings-container">
 
-							
-						</div>
-					</div>
-					<div class="Listing-Details">
-						<div class="Listing-Star">⭐</div>
-						<div class="Listing-Rating">&nbsp;<?=number_format($listing->averageRating, 1)?> (<span class="underline"><?=$listing->ratingCount?></span>)</div>
-						<div class="Listing-Price" style="<?php if($listing->contractType == "CRYPTOCURRENCY") { ?>color:black;font-weight:normal;<?php }?>"><?=$price;?> <?php if($listing->contractType == "CRYPTOCURRENCY") { ?>(<img src="<?=asset_url()?>img/ios7-checkmark-empty.png" width=12 height=12 />)<?php }?></div>
-					</div>
-				</div>
-				</a>
-				</div>
-			
-			<?php }  
-			$i++; } else { echo '<div class="box" style="text-align:center;"><p>This store has no listings</p></div>'; } ?>
-			<br clear="both"/>
-		</div>
+                <?php
+                $i = 0;
+
+                if($listings) {
+                    //$listings = array_slice($listings, 0, 64);
+                    foreach($listings as $listing) {
+                        if(isset($listing) && $listing->contractType == "CRYPTOCURRENCY") {
+                            $coinType = $listing->coinType;
+                            $price = pretty_price(get_coin_amount($coinType), $coinType, 8);
+                        } else {
+                            $price = pretty_price($listing->price->amount, $listing->price->currencyCode);
+                        }
+
+                ?>
+
+                    <div class="mobile-listing-box">
+                    <a href="/store/<?=$profile->peerID?>/<?=$listing->slug?>" title="<?=$listing->title?>">
+                    <div rating="<?=$listing->averageRating?>" freeShipping="<?=implode($listing->freeShipping, ",")?>" category="<?=($listing->categories) ?implode(",", $listing->categories): "";?>" class="Store-Body-Listing-Box  <?php if($i%3==2) { echo "Discover-Body-Listing-Box-Last"; } ?>">
+
+                        <a class="Discover-Body-Listing-Link" href="/store/<?=$profile->peerID?>/<?=$listing->slug?>" title="<?=$listing->title?>"></a>
+                        <?php if($verified_mod) { ?>
+                        <div class="verified-mod-badge" style="float:left;cursor:pointer;background-position: center center;width:36px;height:36px;background-size:24px 24px; background-repeat: no-repeat;background-image: url(https://search.ob1.io/images/verified_moderator_badge_tiny.png), url('../imgs/verifiedModeratorBadgeDefault-tiny.png');">
+
+                            <div class="verified-mod-tip hidden up-arrow" style="width:250px">
+                                <div style="margin-left:auto;margin-right:auto;text-align: center;display: table">
+                                    <img src="https://search.ob1.io/images/verified_moderator_badge_tiny.png" width=24 style="width:24px;text-align:right;display: table-cell;vertical-align: middle; " />
+                                    <span style="vertical-align: middle;display: table-cell; font-weight: 700; font-size: 14px">Verified Moderator</span>
+                                </div>
+                                <p class="verified-mod-text" style="font-size:13px;">You can purchase this listing with a moderator verified by <b>OB1</b>. <br/> <a href="https://ob1.io/verified-moderators.html" style="text-decoration: underline !important; cursor: pointer !important;" target="_blank">Learn more</a></p>
+
+                            </div>
+                        </div>
+                        <?php } ?>
+
+                        <div class="Store-Body-Listing-Box-Photo lazy" data-src='https://gateway.ob1.io/ob/images/<?=$listing->thumbnail->small?>');" style="background-image: url('<?=asset_url()?>img/defaultItem.png');">
+                            <?php if(count($listing->freeShipping) > 0) { ?>
+                            <div class="phraseBox" style="margin:8px 8px 0 0;">FREE SHIPPING</div>
+                            <?php } ?>
+                        </div>
+                        <div class="Discover-Body-Listing-Box-Desc">
+                            <div class="Discover-Body-Listing-Box-Title">
+                                <?php
+                                if($listing->contractType == "CRYPTOCURRENCY") {
+                                ?>
+                                <div style="font-size:13.5px;align-items: center;display: flex;">
+
+                                    <img src="<?=asset_url()?>img/coins/64x64/<?=coin_to_icon($profile->currencies[0])?>.png" width=16 height=16 style="margin-right:4px;"/> <?=$profile->currencies[0]?>
+                                    <img src="<?=asset_url()?>img/icon-arrow.png" width=12 height=12 style="margin:0 12px;" />
+                                    <img src="<?=asset_url()?>img/coins/64x64/<?=coin_to_icon($listing->coinType)?>.png" width=16 height=16 style="margin-right:4px;"/> <?=$listing->coinType;?>
+                                </div>
+                                <?php
+                                } else { ?>
+                                    <a href="/store/<?=$profile->peerID?>/<?=$listing->slug?>"><?=$listing->title?></a>
+                                <?php } ?>
+
+
+                            </div>
+                        </div>
+                        <div class="Listing-Details">
+                            <div class="Listing-Star">⭐</div>
+                            <div class="Listing-Rating">&nbsp;<?=number_format($listing->averageRating, 1)?> (<span class="underline"><?=$listing->ratingCount?></span>)</div>
+                            <div class="Listing-Price" style="<?php if($listing->contractType == "CRYPTOCURRENCY") { ?>color:black;font-weight:normal;<?php }?>"><?=$price;?> <?php if($listing->contractType == "CRYPTOCURRENCY") { ?>(<img src="<?=asset_url()?>img/ios7-checkmark-empty.png" width=12 height=12 />)<?php }?></div>
+                        </div>
+                    </div>
+                    </a>
+                    </div>
+
+                <?php }
+                $i++; } else { echo '<div class="box" style="text-align:center;"><p>This store has no listings</p></div>'; } ?>
+                <br clear="both"/>
+            </div>
+        </div>
 	</div>
 			
 </div>
