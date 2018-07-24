@@ -93,6 +93,7 @@ setlocale(LC_ALL, $locale);
 		<script src="<?=asset_url()?>js/flickity.pkgd.min.js"></script>
 		<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery.lazy/1.7.7/jquery.lazy.min.js"></script>
 		<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery.lazy/1.7.7/jquery.lazy.plugins.min.js"></script>
+		<script src="//cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.bundle.min.js"></script>
 		
 
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -167,9 +168,9 @@ setlocale(LC_ALL, $locale);
 				
 				<?php if(isset($_COOKIE['currency']) && $_COOKIE['currency'] != "BTC") { ?>
 				<div class="btc-price" style="box-sizing: border-box;padding:8px; float:right;margin-right:2px;font-size:13px;">
-					<img src="<?=asset_url()?>img/btcIcon128.png" /> <?=pretty_price(100000000, "BTC")?>
-					<img src="<?=asset_url()?>img/bchIcon128.png" style="margin-left: 15px;" /> <?=pretty_price(100000000, "BCH")?>
-					<img src="<?=asset_url()?>img/zecIcon128.png" style="margin-left: 15px;" /> <?=pretty_price(1, "ZEC")?>
+					<img src="<?=asset_url()?>img/btcIcon128.png" /> <?=pretty_price(10000000000, "BTC")?>
+					<img src="<?=asset_url()?>img/bchIcon128.png" style="margin-left: 15px;" /> <?=pretty_price(10000000000, "BCH")?>
+					<img src="<?=asset_url()?>img/zecIcon128.png" style="margin-left: 15px;" /> <?=pretty_price(100, "ZEC")?>
 				</div>
 				<?php } ?>
 
