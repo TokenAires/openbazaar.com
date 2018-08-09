@@ -42,58 +42,59 @@ class Discover extends CI_Controller {
         }
         
         public function categories()
-        {
-	        	$this->load->driver('cache', array('adapter' => 'apc', 'backup' => 'file'));
-	        	
-	        	$categories = array('electronics', 'books', 'art', 'clothing', 'bitcoin', 'handmade', 'health', 'toys', 'crypto', 'games', 'music');
-	        	shuffle($categories);
-	        	
-	        	$search_results = array();
-	        	        		        		        	
-	        	foreach($categories as $category) {
-	        		$search_string = SEARCH_ENGINE_URI . "/listings/random?q=$category&size=8";
-		        	$search_hash = hash('ripemd160', $search_string);
-		        	$search_load = $this->cache->get('search_'.$search_hash);
-		        	if($search_load == "") {
-			        	$search_load = loadFile($search_string);	
-			        	$this->cache->file->save('search_'.$search_hash, $search_load, 3600); // 60 minutes cache
-		        	}
-		        	
-		        	$search_results[$category] = json_decode($search_load)->results->results;
-		        	shuffle($search_results[$category]);
+        {	        
+        	$this->load->driver('cache', array('adapter' => 'apc', 'backup' => 'file'));
+        	
+        	$categories = array('electronics', 'books', 'art', 'clothing', 'bitcoin', 'handmade', 'health', 'toys', 'crypto', 'games', 'music');
+        	shuffle($categories);
+        	
+        	$search_results = array();
+        	        		        		        	
+        	foreach($categories as $category) {
+        		$search_string = SEARCH_ENGINE_URI . "/listings/random?q=$category&size=8";
+	        	$search_hash = hash('ripemd160', $search_string);
+	        	$search_load = $this->cache->get('search_'.$search_hash);
+	        	if($search_load == "") {
+		        	$search_load = loadFile($search_string);	
+		        	$this->cache->file->save('search_'.$search_hash, $search_load, 3600); // 60 minutes cache
 	        	}
-	        		        					
-				// Get Verified Mods
-				$verified_mods = json_decode(loadFile(SEARCH_ENGINE_URI . "/verified_moderators"));
-				
-				// Featured Stores
-				$featured_store_ids = array(
-					'QmcUDmZK8PsPYWw5FRHKNZFjszm2K6e68BQSTpnJYUsML7', // OpenBazaar Store
-					'QmaNKgLff6gqs5tSFxbsKhuGrLwhAW74MMUuoLeTNgPmnp', // The Queendoms of Plameo
-					'QmbmytVomWgsBW74QgyPdh17adoPBJeo2g7scihNPAjMmy', // Crypto Greeting Cards
-					'QmU5ZSKVz2GhsqE6EmBGVCtrui4YhUXny6rbvsSf5h2xvH', // Crypto Republic - BCH
-					'QmTmCkNLUcPGvf3mSYDme4UQudgn9oCVqE13GHnrF6sjLj', // LickyGiraffe's D&D Store
-					'QmZZHp2P4zj71p1qhCZKVfrmGKBfvuQfCWfG4ujFgC3pTc', // Efilenka [BCH store]
-					'QmeSyTRaNZMD8ajcfbhC8eYibWgnSZtSGUp3Vn59bCnPWC', // Matthew Zipkin
-					'QmdZAYUqCD8KnmN1grkS9nLVmkYc8FXNygH2c4zCqpyp4X', // BananaLotus Creations - BTC
-					'QmVqt2oBKQ67RhmwejX67D49VFXmPy3SwyRYNMQ5WDmFVM', // mazaclub - BTC
-					'QmTHCE9EEcDi9mZqdp2JF61n4fkYRjSJbRxYwtoY7ofjJp'  // The Store @ Bitcoin.com
-				);
-				shuffle($featured_store_ids);
-				$featured_store_ids = array_slice($featured_store_ids, 0, 3);			
-				
-				$countries = file_get_contents(asset_url().'js/countries.json');
-	        	$countries = json_decode($countries, true);
-								
-				$crypto_listings = get_crypto_listings();
-				$crypto_listings = $crypto_listings->results->results;
-								
-				$data = array('featured_stores'=>$featured_store_ids, 'crypto_listings'=>$crypto_listings, 'categories'=>$categories, 'search_results' => $search_results,  'verified_mods'=>$verified_mods->moderators, 'countries'=>$countries);
+	        	
+	        	$search_results[$category] = json_decode($search_load)->results->results;
+	        	shuffle($search_results[$category]);
+        	}	        	
+        		        					
+			// Get Verified Mods				
+			$verified_mods = get_verified_mods();				
+			
+			// Featured Stores
+			$featured_store_ids = array(
+				'QmcUDmZK8PsPYWw5FRHKNZFjszm2K6e68BQSTpnJYUsML7', // OpenBazaar Store
+				'QmaNKgLff6gqs5tSFxbsKhuGrLwhAW74MMUuoLeTNgPmnp', // The Queendoms of Plameo
+				'QmbmytVomWgsBW74QgyPdh17adoPBJeo2g7scihNPAjMmy', // Crypto Greeting Cards
+				'QmU5ZSKVz2GhsqE6EmBGVCtrui4YhUXny6rbvsSf5h2xvH', // Crypto Republic - BCH
+				'QmTmCkNLUcPGvf3mSYDme4UQudgn9oCVqE13GHnrF6sjLj', // LickyGiraffe's D&D Store
+				'QmZZHp2P4zj71p1qhCZKVfrmGKBfvuQfCWfG4ujFgC3pTc', // Efilenka [BCH store]
+				'QmeSyTRaNZMD8ajcfbhC8eYibWgnSZtSGUp3Vn59bCnPWC', // Matthew Zipkin
+				'QmdZAYUqCD8KnmN1grkS9nLVmkYc8FXNygH2c4zCqpyp4X', // BananaLotus Creations - BTC
+				'QmVqt2oBKQ67RhmwejX67D49VFXmPy3SwyRYNMQ5WDmFVM', // mazaclub - BTC
+				'QmTHCE9EEcDi9mZqdp2JF61n4fkYRjSJbRxYwtoY7ofjJp'  // The Store @ Bitcoin.com
+			);
+			shuffle($featured_store_ids);
+			$featured_store_ids = array_slice($featured_store_ids, 0, 3);			
+							
+			$countries = file_get_contents(asset_url().'js/countries.json');
+        	$countries = json_decode($countries, true);
+        						
+        	$this->benchmark->mark('code_start');								
+			$crypto_listings = get_crypto_listings();				
 
-				
-				$this->load->view('header', array('body_class' => 'discover'));
-                $this->load->view('discover_categories', $data);
-                $this->load->view('footer');
+			$crypto_listings = $crypto_listings->results->results;
+							
+			$data = array('featured_stores'=>$featured_store_ids, 'crypto_listings'=>$crypto_listings, 'categories'=>$categories, 'search_results' => $search_results,  'verified_mods'=>$verified_mods, 'countries'=>$countries);
+			
+			$this->load->view('header', array('body_class' => 'discover'));
+            $this->load->view('discover_categories', $data);
+            $this->load->view('footer');                      
         }
         
         public function results($page=0)
