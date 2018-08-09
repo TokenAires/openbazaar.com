@@ -118,9 +118,9 @@
                                 ?>
                                 <div style="font-size:13.5px;align-items: center;display: flex;">
 
-                                    <img src="<?=asset_url()?>img/coins/64x64/<?=coin_to_icon($profile->currencies[0])?>.png" width=16 height=16 style="margin-right:4px;"/> <?=$profile->currencies[0]?>
+                                    <img src="<?=asset_url()?>img/cryptoIcons/<?=$profile->currencies[0]?>-icon.png" width=16 height=16 style="margin-right:4px;"/> <?=$profile->currencies[0]?>
                                     <img src="<?=asset_url()?>img/icon-arrow.png" width=12 height=12 style="margin:0 12px;" />
-                                    <img src="<?=asset_url()?>img/coins/64x64/<?=coin_to_icon($listing->coinType)?>.png" width=16 height=16 style="margin-right:4px;"/> <?=$listing->coinType;?>
+                                    <img src="<?=asset_url()?>img/cryptoIcons/<?=$listing->coinType?>-icon.png" width=16 height=16 style="margin-right:4px;"/> <?=$listing->coinType;?>
                                 </div>
                                 <?php
                                 } else { ?>
